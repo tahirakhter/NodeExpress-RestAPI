@@ -1,0 +1,8 @@
+{
+  "ext": "js",
+  "ignore": [
+    "test/*",
+    "node_modules/*"
+  ],
+  "delay": "5000"
+}
