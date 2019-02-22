@@ -2,6 +2,7 @@ const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const emailService = require('./email.service');
 const utility = require('./utility.service');
+const _ = require('lodash');
 
 module.exports.signUp = async (data) => {
     let user = new User(data);
@@ -19,8 +20,7 @@ module.exports.signUp = async (data) => {
             if (err) {
                 reject(new Error('failed to create user'));
             } else {
-                delete user._doc['password'];
-                delete user._doc['_id'];
+                user = _.omit(user._doc,['password','_id','__v']);
                 resolve(user);
             }
         });

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const {authenticateToken} = require('./service/auth.service');
+const {authenticateToken} = require('./middleware/auth.middleware');
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());

@@ -2,6 +2,7 @@
 const app = require('./app/routes');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
 require('dotenv').config();
 
 // mongoose instance connection url connection
@@ -10,6 +11,9 @@ mongoose.connect(process.env.DB_URL);
 
 //for allowing cross origin requests
 app.use(cors());
+
+//for XSS
+app.use(helmet());
 
 //set port for server to listen
 app.listen( process.env.PORT, () => {
