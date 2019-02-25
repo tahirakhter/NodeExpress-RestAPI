@@ -12,6 +12,9 @@ mongoose.connect(process.env.DB_URL);
 //for allowing cross origin requests
 app.use(cors());
 
+//allow OPTIONS on all resources
+app.options('*', cors())
+
 //for XSS
 app.use(helmet());
 
