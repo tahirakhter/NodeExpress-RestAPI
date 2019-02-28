@@ -2,7 +2,6 @@ const Todo = require('../model/Todo');
 const fetch = require("cross-fetch");
 const utility = require('./utility.service');
 
-
 module.exports.addTodo = async (data) => {
     if (!data.body.task) {
         return Promise.resolve({auth: false, message: 'please pass all the required parameters'});
@@ -46,7 +45,7 @@ module.exports.deleteTodo = async (data) => {
 
 module.exports.getAllTodoList = async () => {
     return new Promise((resolve, reject) => {
-        Todo.find({}).populate('userId',['firstName','lastName']).exec((err, todos) => {
+        Todo.find({},'-created_at -updated_at -__v').populate("userId",'firstName lastName -_id').exec((err, todos) => {
             if (err) {
                 reject(new Error('failed to get todos'));
             } else {
@@ -58,13 +57,13 @@ module.exports.getAllTodoList = async () => {
 
 module.exports.getTodoListByUserId = async (data) => {
     return new Promise((resolve, reject) => {
-        Todo.find({'userId': data.params.userId}, (err, todo) => {
+        Todo.find({'userId': data.params.userId},'-created_at -updated_at -__v').populate( {path:"userId", model:"User", select:['firstName','lastName']}).exec((err, todos) => {
             if (err) {
                 reject(new Error('failed to get todos'));
             } else {
-                resolve(todo);
+                resolve(todos);
             }
-        })
+        });
     })
 }
 
