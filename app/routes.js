@@ -1,7 +1,14 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const {authenticateToken} = require('./middleware/auth.middleware');
+
+//for allowing cross origin requests
+app.use(cors());
+
+//allow OPTIONS on all resources
+app.options('*', cors());
 
 // support parsing of application/json type post data
 app.use(bodyParser.json());

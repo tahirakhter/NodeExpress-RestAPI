@@ -29,6 +29,11 @@ module.exports = mongoose.model('User', new mongoose.Schema({
             type: String,
             required: true
         },
+        role: {
+            type: String,
+            enum: ['ADMIN','USER'],
+            default: 'USER'
+        },
         status: {
             type: Boolean,
             default: true,

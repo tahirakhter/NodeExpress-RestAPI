@@ -4,6 +4,9 @@ const utility = require('./utility.service');
 
 
 module.exports.addTodo = async (data) => {
+    if (!data.body.task) {
+        return Promise.resolve({auth: false, message: 'please pass all the required parameters'});
+    }
     let todo = new Todo(data.body);
     todo.userId = await utility.getUserIdFromToken(data.headers.token);
     return new Promise((resolve, reject) => {
@@ -41,15 +44,15 @@ module.exports.deleteTodo = async (data) => {
     })
 }
 
-module.exports.getAllTodoList = async (data) => {
+module.exports.getAllTodoList = async () => {
     return new Promise((resolve, reject) => {
-        Todo.find({}, (err, todos) => {
+        Todo.find({}).populate('userId',['firstName','lastName']).exec((err, todos) => {
             if (err) {
                 reject(new Error('failed to get todos'));
             } else {
                 resolve(todos);
             }
-        })
+        });
     })
 }
 

@@ -25,7 +25,6 @@ module.exports.signUp = async (data) => {
             }
         });
     })
-
 }
 
 module.exports.resetPassword = async (data) => {

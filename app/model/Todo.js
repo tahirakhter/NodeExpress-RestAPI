@@ -6,8 +6,9 @@ module.exports = mongoose.model('Todo', new mongoose.Schema({
             required: true
         },
         userId: {
-            type: String,
-            required: true
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'User',
+            index: true
         },
         status: {
             type: Boolean,
