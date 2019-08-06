@@ -5,6 +5,8 @@ module.exports.getUserSession = (req, res) => {
     try {
         getUserSession(req.headers.token).then((response) => {
             res.status(200).json(response);
+        }).catch((e) => {
+            res.status(500).json(e.message || e);
         });
     } catch (e) {
         res.status(500).json(e.message);
@@ -39,8 +41,7 @@ module.exports.authenticateUser = (req, res) => {
         authenticateUser(req).then((response) => {
             res.status(200).json(response);
         });
-    }
-    catch (e) {
+    } catch (e) {
         res.status(500).json(e.message);
     }
 }

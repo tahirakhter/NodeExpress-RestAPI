@@ -6,7 +6,8 @@ require('dotenv').config();
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URL);
+mongoose.set('useCreateIndex', true)
+mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true });
 
 //for XSS
 app.use(helmet());

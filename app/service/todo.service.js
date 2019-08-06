@@ -1,13 +1,13 @@
 const Todo = require('../model/Todo');
 const fetch = require("cross-fetch");
-const utility = require('./utility.service');
+const commonHelper = require('../helper/common.helper');
 
 module.exports.addTodo = async (data) => {
     if (!data.body.task) {
         return Promise.resolve({auth: false, message: 'please pass all the required parameters'});
     }
     let todo = new Todo(data.body);
-    todo.userId = await utility.getUserIdFromToken(data.headers.token);
+    todo.userId = await commonHelper.getUserIdFromToken(data.headers.token);
     return new Promise((resolve, reject) => {
         todo.save((err, todo) => {
             if (err) {

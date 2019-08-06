@@ -18,15 +18,16 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.0",
-    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "cross-fetch": "^3.0.0",
+    "crypto": "^1.0.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "helmet": "^3.15.1",
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "mongoose": "^5.4.5",
     "nodemailer": "^5.1.1"
   },

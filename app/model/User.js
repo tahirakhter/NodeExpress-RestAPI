@@ -31,8 +31,16 @@ module.exports = mongoose.model('User', new mongoose.Schema({
         },
         role: {
             type: String,
-            enum: ['ADMIN','USER'],
+            enum: ['ADMIN', 'USER'],
             default: 'USER'
+        },
+        authorizationCode: {
+            type: String,
+            default: null
+        },
+        authorizationCodeExpiryTime: {
+            type: Date,
+            default: null
         },
         status: {
             type: Boolean,

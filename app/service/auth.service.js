@@ -1,15 +1,16 @@
 const User = require('../model/User');
 const UserLogin = require('../model/UserLogin');
-const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const utility = require('./utility.service');
+const commonHelper = require('../helper/common.helper');
+const _ = require('lodash');
 
 module.exports.getUserSession = async (token) => {
-    let userId = await utility.getUserIdFromToken(token);
+    let userId =  await commonHelper.getUserIdFromToken(token);
     if (userId) {
         return new Promise((resolve, reject) => {
             //PROJECTION => hiding password and id before sending it
-            User.findById(userId, {password: 0, _id: 0,__v:0}, (err, user) => {
+            User.findById(userId, {password: 0, _id: 0, __v: 0}, (err, user) => {
                 if (err) {
                     reject(new Error('user not found!'));
                 } else {
@@ -37,7 +38,7 @@ module.exports.logout = async (token) => {
 
 
 module.exports.logoutAllDevices = async (token) => {
-    let userId = await utility.getUserIdFromToken(token);
+    let userId = await commonHelper.getUserIdFromToken(token);
     if (userId) {
         return new Promise((resolve, reject) => {
             UserLogin.deleteMany({'userId': userId}).then((response) => {
@@ -64,7 +65,11 @@ module.exports.authenticateUser = async (data) => {
             if (err) {
                 resolve({message: 'incorrect userName!'});
             } else {
-                if (bcrypt.compareSync(userInfo.password, user.password)) {
+                //creating hash from password to compare
+                let hashedPassword = crypto.pbkdf2Sync(userInfo.password,
+                    process.env.PASSWORD_SALT, 100, 64, `sha512`).toString(`hex`);
+
+                if (_.isEqual(hashedPassword, user.password)) {
                     let token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
                         expiresIn: 3600 // expires in 1 hour
                     });
