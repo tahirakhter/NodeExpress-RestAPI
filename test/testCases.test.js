@@ -24,11 +24,11 @@ describe('check api', () => {
 
     test('signup', async (done) => {
         const data = {
-            "firstName": "tahir",
-            "lastName": "akhter",
+            "firstName": "test",
+            "lastName": "user",
             "gender": true,
-            "email": "tahir@gmail.com",
-            "userName": "tahirakhter",
+            "email": "testUser001@gmail.com",
+            "userName": "testUser001",
             "password": "123"
         }
         try {
@@ -45,7 +45,7 @@ describe('check api', () => {
 
     test('login', async (done) => {
         const data = {
-            "userName": "tahirakhter",
+            "userName": "testUser001",
             "password": "123"
         }
         const response = await request(app).post('/api/login').send(data).set("Accept", "application/json");

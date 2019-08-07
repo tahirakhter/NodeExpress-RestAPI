@@ -1,6 +1,12 @@
 const Todo = require('../model/Todo');
 const fetch = require("cross-fetch");
 const commonHelper = require('../helper/common.helper');
+const _ = require('lodash');
+
+/*class TodoService {
+
+}
+module.exports = TodoService;*/
 
 module.exports.addTodo = async (data) => {
     if (!data.body.task) {
@@ -44,20 +50,56 @@ module.exports.deleteTodo = async (data) => {
 }
 
 module.exports.getAllTodoList = async () => {
-    return new Promise((resolve, reject) => {
-        Todo.find({},'-created_at -updated_at -__v').populate("userId",'firstName lastName -_id').exec((err, todos) => {
-            if (err) {
-                reject(new Error('failed to get todos'));
-            } else {
-                resolve(todos);
+
+    let query = [
+        {
+            "$match": {}
+        },
+        {
+            "$lookup": {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user"
             }
-        });
-    })
+        },
+        {
+            "$unwind": "$user"
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "__v": 0,
+                "created_at": 0,
+                "updated_at": 0,
+                "user._id": 0,
+                "user.__v": 0,
+                "user.created_at": 0,
+                "user.updated_at": 0,
+            }
+        }
+    ];
+
+    try {
+        let results = await Todo.aggregate(query);
+        if (!_.isEmpty(results)) {
+            return results;
+        } else {
+            throw  new Error('nothing found!');
+        }
+    } catch (err) {
+        return err.message || err;
+    }
+
 }
 
 module.exports.getTodoListByUserId = async (data) => {
     return new Promise((resolve, reject) => {
-        Todo.find({'userId': data.params.userId},'-created_at -updated_at -__v').populate( {path:"userId", model:"User", select:['firstName','lastName']}).exec((err, todos) => {
+        Todo.find({'userId': data.params.userId}, '-created_at -updated_at -__v').populate({
+            path: "userId",
+            model: "User",
+            select: ['firstName', 'lastName']
+        }).exec((err, todos) => {
             if (err) {
                 reject(new Error('failed to get todos'));
             } else {

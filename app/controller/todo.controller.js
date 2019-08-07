@@ -35,13 +35,12 @@ module.exports.deleteTodo = (req, res) => {
 
 //get all todoItems
 module.exports.getAllTodoList = (req, res) => {
-    try {
-        getAllTodoList(req).then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
-    }
+    getAllTodoList(req).then((response) => {
+        res.status(200).json(response);
+    }).catch((err) => {
+        res.status(500).json(err.message || err);
+    });
+
 }
 
 //get todoItem by UserId
