@@ -4,7 +4,9 @@ const commonHelper = require('../helper/common.helper');
 const _ = require('lodash');
 
 /*class TodoService {
+    static async getAllTodoList()=>{
 
+    }
 }
 module.exports = TodoService;*/
 
