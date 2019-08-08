@@ -1,65 +1,51 @@
-const {addTodo, updateTodo, deleteTodo, getAllTodoList, getTodoListByUserId, getThirdPartyUsersList} = require('../service/todo.service');
+const todoService = require('../service/todo.service');
 
 //add todoItem
-module.exports.addTodo = (req, res) => {
+module.exports.addTodo = async (req, res) => {
     try {
-        addTodo(req).then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
+        let response = await todoService.addTodo(req);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json(err.message || err);
     }
 }
 
 //update by todoId
-module.exports.updateTodo = (req, res) => {
+module.exports.updateTodo = async (req, res) => {
     try {
-        updateTodo(req).then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
+        let response = await todoService.updateTodo(req);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json(err.message || err);
     }
 }
 
 //delete by todoId
-module.exports.deleteTodo = (req, res) => {
+module.exports.deleteTodo = async (req, res) => {
     try {
-        deleteTodo(req).then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
+        let response = await todoService.deleteTodo(req);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json(err.message || err);
     }
 }
 
 //get all todoItems
-module.exports.getAllTodoList = (req, res) => {
-    getAllTodoList(req).then((response) => {
-        res.status(200).json(response);
-    }).catch((err) => {
-        res.status(500).json(err.message || err);
-    });
-}
-
-//get todoItem by UserId
-module.exports.getTodoListByUserId = (req, res) => {
+module.exports.getAllTodoList = async (req, res) => {
     try {
-        getTodoListByUserId(req).then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
+        let response = await todoService.getAllTodoList(req);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json(err.message || err);
     }
 }
 
-//for third party call
-module.exports.getThirdPartyUsersList = (req, res) => {
+//get todoItem by UserId
+module.exports.getTodoListByUserId = async (req, res) => {
     try {
-        getThirdPartyUsersList().then((response) => {
-            res.status(200).json(response);
-        });
-    } catch (e) {
-        res.status(500).json(e.message);
+        let response = await todoService.getTodoListByUserId(req);
+        res.status(200).json(response);
+    } catch (err) {
+        res.status(500).json(err.message || err);
     }
 }

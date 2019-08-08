@@ -66,8 +66,5 @@ app.route('/api/todo/:todoId')
 app.route('/api/todo/:userId')
     .get(isAuthenticated, todoController.getTodoListByUserId);
 
-//for other service call
-app.route('/api/getThirdPartyUsersList')
-    .get(isAuthenticated, todoController.getThirdPartyUsersList);
 
 module.exports = app
