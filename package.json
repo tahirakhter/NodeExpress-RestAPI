@@ -13,7 +13,9 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "pretest": "eslint --ignore-path .gitignore .",
+    "fix": "eslint --fix --cache --ignore-path .gitignore ."
   },
   "license": "ISC",
   "dependencies": {
@@ -34,6 +36,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "eslint": "^6.1.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.18.9"
   }
