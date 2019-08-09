@@ -1,9 +1,6 @@
 'use strict';
 const nodemailer = require('nodemailer');
-
-const emailContent = {
-  RESET_PASSWORD: '<a href="">Click to Change your password</a>'
-};
+const fs = require('fs').promises;
 
 // configure email to send
 let transporter = nodemailer.createTransport({
@@ -20,12 +17,16 @@ let transporter = nodemailer.createTransport({
 
 module.exports.sendEmail = async(data) => {
   if (data) {
+    // load template
+    let fsReadFileHtml = await fs.readFile('././app/emailTemplates/resetPassword.html', 'utf8');
+    fsReadFileHtml = fsReadFileHtml.replace('passwordResetOTP', data.otp);
+
     return new Promise((resolve, reject) => {
       const mailOptions = {
         from: process.env.EMAIL_USER, // sender email
         to: data.to, // receiver email
         subject: data.subject,
-        html: emailContent[data.type]
+        html: fsReadFileHtml
       };
 
       // sending email

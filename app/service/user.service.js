@@ -54,7 +54,8 @@ class UserService {
           let emailSent = await emailService.sendEmail({
             to: user.email,
             subject: 'Password Reset Request',
-            type: 'RESET_PASSWORD'
+            type: 'RESET_PASSWORD',
+            otp: otp.res
           });
           if (!_.isEmpty(emailSent)) {
             return emailSent;

@@ -1,52 +1,46 @@
 'use strict';
-const { getUserSession, logout, logoutAllDevices, authenticateUser } = require('../service/auth.service');
+const authService = require('../service/auth.service');
 
 // get user session on token
-module.exports.getUserSession = (req, res) => {
+module.exports.getUserSession = async(req, res) => {
   try {
-    getUserSession(req.headers.token).then((response) => {
-      res.status(200).json(response);
-    }).catch((e) => {
-      res.status(500).json(e.message || e);
-    });
+    let response = await authService.getUserSession(req.headers.token);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
 
 // logout user
-module.exports.logout = (req, res) => {
+module.exports.logout = async(req, res) => {
   try {
-    logout(req.headers.token).then((response) => {
-      res.status(200).json(response);
-    });
+    let response = await authService.logout(req.headers.token);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
 
 // logout all user tokens
-module.exports.logoutAllDevices = (req, res) => {
+module.exports.logoutAllDevices = async(req, res) => {
   try {
-    logoutAllDevices(req.headers.token).then((response) => {
-      res.status(200).json(response);
-    });
+    let response = await authService.logoutAllDevices(req.headers.token);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
 
 // login user
-module.exports.authenticateUser = (req, res) => {
+module.exports.authenticateUser = async(req, res) => {
   try {
-    authenticateUser(req).then((response) => {
-      res.status(200).json(response);
-    });
+    let response = await authService.authenticateUser(req);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
