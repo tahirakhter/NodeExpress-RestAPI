@@ -1,40 +1,35 @@
 'use strict';
-const { signUp, resetPassword, changePassword } = require('../service/user.service');
+const userService = require('../service/user.service');
 
 // user signup
-module.exports.signUp = (req, res) => {
+module.exports.signUp = async(req, res) => {
   try {
-    signUp(req.body).then((response) => {
-      res.status(200).json(response);
-    }).catch((e) => {
-      res.status(500).json(e.message || e);
-    });
+    let response = await userService.signUp(req.body);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
 
 // user rest password request
-module.exports.resetPassword = (req, res) => {
+module.exports.resetPassword = async(req, res) => {
   try {
-    resetPassword(req.body).then((response) => {
-      res.status(200).json(response);
-    });
+    let response = await userService.resetPassword(req.body);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message || 'error!');
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
 
 // change/update password
-module.exports.changePassword = (req, res) => {
+module.exports.changePassword = async(req, res) => {
   try {
-    changePassword(req).then((response) => {
-      res.status(200).json(response);
-    });
+    let response = await userService.changePassword(req);
+    res.status(200).json(response);
   }
-  catch (e) {
-    res.status(500).json(e.message);
+  catch (err) {
+    res.status(500).json(err.message || err);
   }
 };
