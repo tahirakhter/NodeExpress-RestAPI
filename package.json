@@ -31,7 +31,7 @@
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.5",
+    "mongoose": "^5.7.5",
     "nodemailer": "^5.1.1",
     "swagger-jsdoc": "^6.0.0-rc.4",
     "swagger-ui-express": "^4.1.5"
