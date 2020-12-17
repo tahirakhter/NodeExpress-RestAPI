@@ -24,7 +24,7 @@ Project for Node RestAPI using Express Framework, JWT, REST Services, Multi Devi
           "firstName":"test",
           "lastName":"user",
           "gender":true,
-          "email":"testuser@xxx.com",
+          "email":"testuser@abc.com",
           "userName":"testuser",
           "password":"123"
         }
