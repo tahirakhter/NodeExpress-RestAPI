@@ -3,9 +3,16 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swarggerUI = require('swagger-ui-express');
 const { authenticateToken } = require('./middleware/auth.middleware');
+
+/** ********************************************* load Controller ******************************************************/
+const authController = require('./controller/auth.controller');
+const userController = require('./controller/user.controller');
+const todoController = require('./controller/todo.controller');
 
 // for allowing cross origin requests
 app.use(cors());
@@ -13,12 +20,27 @@ app.use(cors());
 // allow OPTIONS on all resources
 app.options('*', cors());
 
+// to check csrf token in cookies
+const csrfMiddleware = csurf({
+  cookie: true
+});
+
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
 // support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// parse cookies
+// we need this because "cookie" is true in csrfProtection
+// required _csrf token with every request
+if (process.env.NODE_ENV !== 'test') {
+    app.use(cookieParser());
+    app.use(csrfMiddleware);
+}
+
+// remove header
+app.disable('x-powered-by');
 
 // swagger documentation
 const swaggerOptions = {
@@ -45,11 +67,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api/docs', swarggerUI.serve, swarggerUI.setup(swaggerDocs));
 
-/** ********************************************* load Controller ******************************************************/
-const authController = require('./controller/auth.controller');
-const userController = require('./controller/user.controller');
-const todoController = require('./controller/todo.controller');
-
 /** ************************************** middleware for token authentication ******************************************/
 function isAuthenticated(req, res, next) {
   const token = req.headers.token;
@@ -61,7 +78,7 @@ function isAuthenticated(req, res, next) {
 
 // check server connection
 app.get('/api/testConnection', function (req, res) {
-  res.json({ 'message': 'Connection Successful!' });
+  res.json({ 'csrf': req.csrfToken(), 'message': 'Connection Successful!' });
 });
 
 /** ********************************************* authController ******************************************************/

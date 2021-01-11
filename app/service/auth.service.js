@@ -96,9 +96,9 @@ class AuthService {
             throw new Error('login failed!');
           }
         }
-        throw new Error('incorrect password!');
+        throw new Error('incorrect userName or password!');
       }
-      throw new Error('incorrect userName!');
+      throw new Error('incorrect userName or password!');
     }
     catch (err) {
       // Log Errors

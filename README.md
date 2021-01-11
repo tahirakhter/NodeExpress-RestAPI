@@ -26,7 +26,7 @@ Project for Node RestAPI using Express Framework, JWT, REST Services, Multi Devi
           "gender":true,
           "email":"testuser@abc.com",
           "userName":"testuser",
-          "password":"123"
+          "password":"123",
         }
  * signIn => POST: http:localhost:8080/api/login
  *    data:{

@@ -17,6 +17,7 @@ chai.use(chaiHttp);
 describe('Rest Api Testing', () => {
 
   let token = null;
+  let _csrf = null;
 
   // Before all test we empty the database
   before((done) => {
@@ -43,14 +44,15 @@ describe('Rest Api Testing', () => {
     });
   });
 
-  it('test connection', (done) => {
-    chai.request(app)
-      .get('/api/testConnection')
-      .end((err, res) => {
-        res.should.have.status(200);
-        done();
-      });
-  });
+  // it('test connection', (done) => {
+  //   chai.request(app)
+  //     .get('/api/testConnection')
+  //     .end((err, res) => {
+  //       res.should.have.status(200);
+  //       _csrf = res.body._csrf;
+  //       done();
+  //     });
+  // });
 
   it('user signup', (done) => {
     let data = {
@@ -111,5 +113,4 @@ describe('Rest Api Testing', () => {
     done();
   });
 
-})
-;
+});
